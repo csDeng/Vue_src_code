@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <h1>函数data</h1>
+    <func-add > </func-add>
+    <func-add></func-add>
+    <hr />
+    <h1>对象data</h1>
+    <obj-add > </obj-add>
+    <obj-add></obj-add>
+    <hr />
+  </div>
+
+  <script>
+    Vue.component('func-add',{
+      data(){
+        return {
+          num:1
+        }
+      },
+      template:`<button @click='num++'>{{num}}</button>`
+    })
+
+    Vue.component('obj-add', {
+      data:{
+        num1: 1   // 会报错vue.js:634 [Vue warn]: The "data" option should be a function that returns a per-instance value in component definitions.
+      },
+      template:`<button @click='num1++'>n{{num1}}</button>`
+    })
+    const vm = new Vue({
+      el:'#app',
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var templateStr = `<h1>买了个{{thing}},好{{mood}}</h1>`
+
+        var data = {
+            thing:'手机',
+            mood:'开心'
+        }
+
+        // console.log('我爱读书,我爱写代码'.replace(/我/g,'你'))
+        // console.log('我爱读书,我爱写代码'.replace(/我/g,function(a,b,c){
+        //     console.log(a,b,c)
+        //     console.log(arguments)
+        //     return '你'
+        // }))
+        console.log(templateStr)
+        // console.log(templateStr.replace(/\{\{(\w+)\}\}/g,'*'))
+
+        // 加()对正则结果分组
+        console.log(templateStr.replace(/\{\{(\w+)\}\}/g,function(findStr,$1,$2){
+            console.log($1)
+            console.log(arguments)
+            // console.log($2)
+            return data[$1]
+        }))
+    </script>
+
+</body>
+</html>
