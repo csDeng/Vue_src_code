@@ -48,7 +48,12 @@
 
 
 // 7. 封装一个form表单
-import myForm from './components/07_form';
+// import myForm from './components/07_form';
+
+
+// 8. 将create写成插件的形式
+import myForm from './components/07_form_plugin';
+
 export default {
   name: 'App',
   components: {

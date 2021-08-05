@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import App from './App.vue'
 import create from './utils/create.js'
+import $create from './plugin/create'
+
+Vue.use($create)
 Vue.config.productionTip = false
 Vue.prototype.$create = create
 /**
