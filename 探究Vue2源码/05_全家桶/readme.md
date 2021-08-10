@@ -41,3 +41,34 @@ new Vue({
 
 
 
+
+
+# Vuex
+
+> 集中式存储管理应用的所有组件状态，并以相应的规则保证状态以可预测的方式发生变化
+
+* 单向数据流
+
+![image-20210809195121870](C:\Users\dcs\Desktop\Github\Vue_src_code\探究Vue2源码\05_全家桶\pics\image-20210809195121870.png)
+
+## 核心功能
+
+1. state
+2. mutations		(操作state的函数)
+3. actions            （异步函数）
+
+
+
+## 手写vuex里面的基本功能
+
+* state
+* commit()
+* dispatch()
+* getter
+
+
+
+
+
+
+

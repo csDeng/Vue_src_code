@@ -9,7 +9,7 @@ class KVueRouter {
     constructor(options) {
         this.$options = options
         // 让this.current 成为响应式
-        Vue.util.defineReactive(this, 'current', '/')
+        // Vue.util.defineReactive(this, 'current', '/')
         // 也可以用下面这种写法来代替util.defineReactive
         // 开Vue实例这种方式的话，记得修改hashChange函数，以及View组件
         // this.app  = new Vue({
@@ -21,6 +21,13 @@ class KVueRouter {
         // })
 
         // this.current = '/'
+
+        // 嵌套式路由
+        this.current = window.location.hash.slice(1) || '/'
+        Vue.util.defineReactive(this, 'matched', [])
+        // match方法递归遍历路由表，获得匹配关系数组
+        this.match()
+
         // 监听url变化
         window.addEventListener('hashchange',onhashchange.bind(this))
 
@@ -33,6 +40,9 @@ class KVueRouter {
 
             this.current = window.location.hash.slice(1)
 
+            this.matched = []
+            this.match()
+
             // this.app.current = window.location.hash.slice(1)
             // console.log("当前的url=", this.current)
         }
@@ -42,6 +52,26 @@ class KVueRouter {
         options.routes.forEach(route => {
             this.routeMap.set(route.path, route.component)
         })
+    }
+
+    match(routes){
+        routes = routes || this.$options.routes
+        // 递归遍历
+        for(const route of routes){
+            if( route.path === '/' && this.current === '/'){
+                this.matched.push(route)
+                return
+            }
+            
+            // /A/B
+            if( route.path !== '/' && this.current.indexOf(route.path)!= -1 ){
+                this.matched.push(route)
+                if( route.children ){
+                    this.match(route.children)
+                }
+                return
+            }
+        }
     }
 }
 

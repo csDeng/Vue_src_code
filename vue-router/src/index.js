@@ -47,6 +47,8 @@ export default class VueRouter {
     this.afterHooks = []
     this.matcher = createMatcher(options.routes || [], this)
 
+
+    // 默认使用hash模式
     let mode = options.mode || 'hash'
     this.fallback =
       mode === 'history' && !supportsPushState && options.fallback !== false
@@ -65,7 +67,7 @@ export default class VueRouter {
       case 'hash':
         this.history = new HashHistory(this, options.base, this.fallback)
         break
-      case 'abstract':
+      case 'abstract': 
         this.history = new AbstractHistory(this, options.base)
         break
       default:
@@ -144,14 +146,17 @@ export default class VueRouter {
     })
   }
 
+  // 前置全局导航守卫
   beforeEach (fn: Function): Function {
     return registerHook(this.beforeHooks, fn)
   }
 
+  // 
   beforeResolve (fn: Function): Function {
     return registerHook(this.resolveHooks, fn)
   }
 
+  // 全局后置导航守卫 
   afterEach (fn: Function): Function {
     return registerHook(this.afterHooks, fn)
   }

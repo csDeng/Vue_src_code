@@ -4,6 +4,8 @@ import { handleRouteEntered } from '../util/route'
 
 export default {
   name: 'RouterView',
+
+  // 声明为函数式组件
   functional: true,
   props: {
     name: {
@@ -24,8 +26,13 @@ export default {
 
     // determine current view depth, also check to see if the tree
     // has been toggled inactive but kept-alive.
+    // 深度标记
     let depth = 0
     let inactive = false
+
+    /**
+     * @嵌套路由的解决办法
+     */
     while (parent && parent._routerRoot !== parent) {
       const vnodeData = parent.$vnode ? parent.$vnode.data : {}
       if (vnodeData.routerView) {

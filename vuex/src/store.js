@@ -40,6 +40,8 @@ export class Store {
     // bind commit and dispatch to self
     const store = this
     const { dispatch, commit } = this
+
+    // 绑定上下文
     this.dispatch = function boundDispatch (type, payload) {
       return dispatch.call(store, type, payload)
     }
@@ -70,6 +72,8 @@ export class Store {
     }
   }
 
+
+  // 存储器，避免用户直接修改state ，影响可预测
   get state () {
     return this._vm._data.$$state
   }
@@ -303,6 +307,8 @@ function resetStoreVM (store, state, hot) {
   // some funky global mixins
   const silent = Vue.config.silent
   Vue.config.silent = true
+
+  // $$state 响应式
   store._vm = new Vue({
     data: {
       $$state: state
@@ -324,6 +330,8 @@ function resetStoreVM (store, state, hot) {
         oldVm._data.$$state = null
       })
     }
+
+    // 摧毁旧的$vm
     Vue.nextTick(() => oldVm.$destroy())
   }
 }
@@ -356,7 +364,9 @@ function installModule (store, rootState, path, module, hot) {
     })
   }
 
+  // 定义local 为模块上下文
   const local = module.context = makeLocalContext(store, namespace, path)
+
 
   module.forEachMutation((mutation, key) => {
     const namespacedType = namespace + key
@@ -422,6 +432,7 @@ function makeLocalContext (store, namespace, path) {
 
   // getters and state object must be gotten lazily
   // because they will be changed by vm update
+
   Object.defineProperties(local, {
     getters: {
       get: noNamespace
