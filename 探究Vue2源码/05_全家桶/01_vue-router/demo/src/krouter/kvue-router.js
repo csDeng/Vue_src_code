@@ -37,7 +37,7 @@ class KVueRouter {
         function onhashchange(){
             // 注意函数上下文于类上下文的不一致
             // console.log('hashchange',window.location)
-
+            // 获取BOM 的location的hash路径
             this.current = window.location.hash.slice(1)
 
             this.matched = []
