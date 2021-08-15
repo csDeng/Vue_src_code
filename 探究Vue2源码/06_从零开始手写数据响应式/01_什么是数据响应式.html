@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script>
+        const obj = {}
+        const app = document.getElementById('app')
+        function defineReactive(obj, key, val){
+            Object.defineProperty(obj,key, {
+                get(){
+                    console.log('get', key)
+                    return val
+                },
+                set(newVal){
+                    if( newVal !== val){
+                        console.log(`set ${val} -> ${newVal}`)
+                        val = newVal
+                        // 通知视图更新
+                        update()
+                    }
+                }
+            })
+        }
+        defineReactive(obj, 'count', 0)
+        function update(){
+            app.innerHTML = obj.count
+        }
+        update()
+        setInterval(()=>{
+            obj.count++;
+        },3000)
+    </script>
+</body>
+</html>

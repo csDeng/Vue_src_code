@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script src='/xuni/bundle.js'></script>
+    <script>
+        var templateStr =
+        `      <ul>
+                {{#arr}}
+                    <li>
+                        <div class='hd'>{{name}}的基本信息</div>
+                        <div class='bd'>
+                            <p>姓名:{{name}}</p>
+                            <p>年龄:{{age}}</p>    
+                        </div>
+                    </li>
+                {{/arr}}
+            </ul>`
+        ;
+        var data = {
+            arr:[
+                {
+                    name:'小明',
+                    age:18
+                },
+                {
+                    name:'小红',
+                    age:19
+                },
+                {
+                    name:'小白',
+                    age:20
+                }
+            ]
+        };
+
+        // 一个简单的测试例子
+        // templateStr = `我爱{{name}}--{{data}}--{{a.b.c}}`
+        // var data = {
+        //     name:'小明',
+        //     data:'真棒',
+        //     a:{
+        //         b: {
+        //             c: 100
+        //         }
+        //     }
+        // }
+        var domStr = SSG_TemplateEngine.render(templateStr,data)
+        
+        console.log(domStr);
+        // 渲染上树
+        document.getElementById('app').innerHTML = domStr
+    </script>
+</body>
+</html>
