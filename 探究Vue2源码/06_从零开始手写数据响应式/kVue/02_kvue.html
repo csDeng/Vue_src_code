@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./kvue.js"></script>
+  <script src='./compile.js'></script>
+</head>
+<body>
+  <div id="app">
+    <p k-text='counter'></p>
+    <p k-html='desc'></p>
+  </div>
+
+  <script>
+    const vm = new kvue({
+      el:'#app',
+      data(){
+          return {
+              counter: 0,
+              desc:`<span style='color:red'>我是k-html触发的东西</span>`
+          }
+      },
+    })
+    // console.log(vm)
+    setInterval(()=>{
+      vm.counter ++;
+    }, 1000)
+  </script>
+</body>
+</html>
