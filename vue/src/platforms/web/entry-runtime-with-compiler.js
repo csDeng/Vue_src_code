@@ -14,54 +14,44 @@ const idToTemplate = cached(id => {
   return el && el.innerHTML
 })
 
+// 保存原来的$mount
 const mount = Vue.prototype.$mount
+
+// 覆盖默认的$mount(扩展)
 Vue.prototype.$mount = function (
   el?: string | Element,
   hydrating?: boolean
 ): Component {
   el = el && query(el)
 
-  /* istanbul ignore if */
-  if (el === document.body || el === document.documentElement) {
-    process.env.NODE_ENV !== 'production' && warn(
-      `Do not mount Vue to <html> or <body> - mount to normal elements instead.`
-    )
-    return this
-  }
 
+  // 解析options
   const options = this.$options
   // resolve template/el and convert to render function
   if (!options.render) {
+    /**
+     * 没有render的时候才会渲染template
+     * render > template > el
+     */
     let template = options.template
     if (template) {
       if (typeof template === 'string') {
         if (template.charAt(0) === '#') {
           template = idToTemplate(template)
-          /* istanbul ignore if */
-          if (process.env.NODE_ENV !== 'production' && !template) {
-            warn(
-              `Template element not found or is empty: ${options.template}`,
-              this
-            )
-          }
         }
       } else if (template.nodeType) {
         template = template.innerHTML
       } else {
-        if (process.env.NODE_ENV !== 'production') {
-          warn('invalid template option:' + template, this)
-        }
         return this
       }
     } else if (el) {
       template = getOuterHTML(el)
     }
-    if (template) {
-      /* istanbul ignore if */
-      if (process.env.NODE_ENV !== 'production' && config.performance && mark) {
-        mark('compile')
-      }
 
+    /**
+     * 如果存在模板，执行编译
+     */
+    if (template) {
       const { render, staticRenderFns } = compileToFunctions(template, {
         outputSourceRange: process.env.NODE_ENV !== 'production',
         shouldDecodeNewlines,
@@ -69,16 +59,17 @@ Vue.prototype.$mount = function (
         delimiters: options.delimiters,
         comments: options.comments
       }, this)
+
+      //  最终还是执行render
       options.render = render
       options.staticRenderFns = staticRenderFns
 
-      /* istanbul ignore if */
-      if (process.env.NODE_ENV !== 'production' && config.performance && mark) {
-        mark('compile end')
-        measure(`vue ${this._name} compile`, 'compile', 'compile end')
-      }
+
     }
   }
+  /**
+   * 最后执行mount
+   */
   return mount.call(this, el, hydrating)
 }
 

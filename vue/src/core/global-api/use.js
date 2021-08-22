@@ -12,6 +12,9 @@ export function initUse (Vue: GlobalAPI) {
     // additional parameters
     const args = toArray(arguments, 1)
     args.unshift(this)
+
+    // 判断plugin中有没有install方法，
+    //  绑定install的上下文是插件本身
     if (typeof plugin.install === 'function') {
       plugin.install.apply(plugin, args)
     } else if (typeof plugin === 'function') {

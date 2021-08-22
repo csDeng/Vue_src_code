@@ -27,6 +27,8 @@ const weexFactoryPlugin = {
 
 const aliases = require('./alias')
 const resolve = p => {
+
+  // 基地址
   const base = p.split('/')[0]
   if (aliases[base]) {
     return path.resolve(aliases[base], p.slice(base.length + 1))
@@ -35,6 +37,7 @@ const resolve = p => {
   }
 }
 
+// 打包配置简本
 const builds = {
   // Runtime only (CommonJS). Used by bundlers e.g. Webpack & Browserify
   'web-runtime-cjs-dev': {

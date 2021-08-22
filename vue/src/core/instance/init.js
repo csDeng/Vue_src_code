@@ -19,12 +19,7 @@ export function initMixin (Vue: Class<Component>) {
     vm._uid = uid++
 
     let startTag, endTag
-    /* istanbul ignore if */
-    if (process.env.NODE_ENV !== 'production' && config.performance && mark) {
-      startTag = `vue-perf-start:${vm._uid}`
-      endTag = `vue-perf-end:${vm._uid}`
-      mark(startTag)
-    }
+
 
     // a flag to avoid this being observed
     vm._isVue = true
@@ -35,6 +30,9 @@ export function initMixin (Vue: Class<Component>) {
       // internal component options needs special treatment.
       initInternalComponent(vm, options)
     } else {
+      /**
+       * 合并options
+       */
       vm.$options = mergeOptions(
         resolveConstructorOptions(vm.constructor),
         options || {},
@@ -49,21 +47,61 @@ export function initMixin (Vue: Class<Component>) {
     }
     // expose real self
     vm._self = vm
+    /**
+      @什么叫初始化生命周期
+     * 初始化生命周期, @重点 自上而下创建，但是自下而上挂载
+     * 挂载组件的组件间通信相关的一些方法
+     *
+      vm.$parent = parent
+      vm.$root = parent ? parent.$root : vm
+
+      vm.$children = []
+      vm.$refs = {}
+     */
     initLifecycle(vm)
+
+    /**
+     * @什么叫初始化事件
+     * 添加事件监听，对父组件传入的事件进行监听
+     * <Child @click='xx' />
+     */
     initEvents(vm)
+
+    /**
+     * @render
+     * 声明$slot,虚拟dom的生成
+     *  vm.$createElement = (a, b, c, d) => createElement(vm, a, b, c, d, true)
+     */
     initRender(vm)
+    /**
+     * 调用 beforeCreate钩子
+     */
     callHook(vm, 'beforeCreate')
+
+
+    /**
+     * 注入数据（没有响应式的 ）
+     */
     initInjections(vm) // resolve injections before data/props
+    
+    /**
+     * @重要 数据初始化，响应式
+     * 在reject之后，初始化数据，达到去重的效果
+     */
     initState(vm)
+
+    /**
+     * 提供数据
+     * 在注入，以及响应式处理之后，再提供
+     */
     initProvide(vm) // resolve provide after data/props
+
+    /**
+     * 调用created钩子函数
+     */
     callHook(vm, 'created')
 
-    /* istanbul ignore if */
-    if (process.env.NODE_ENV !== 'production' && config.performance && mark) {
-      vm._name = formatComponentName(vm, false)
-      mark(endTag)
-      measure(`vue ${vm._name} init`, startTag, endTag)
-    }
+
 
     if (vm.$options.el) {
       vm.$mount(vm.$options.el)

@@ -26,18 +26,37 @@ Vue.config.isReservedAttr = isReservedAttr
 Vue.config.getTagNamespace = getTagNamespace
 Vue.config.isUnknownElement = isUnknownElement
 
+/**
+ * 安装Vue特有的指令和组件
+ */
 // install platform runtime directives & components
 extend(Vue.options.directives, platformDirectives)
 extend(Vue.options.components, platformComponents)
 
 // install platform patch function
+/**
+ * 指定补丁方法
+ * 把传入的虚拟dom转化成真实dom
+ * 
+ */
 Vue.prototype.__patch__ = inBrowser ? patch : noop
 
 // public mount method
+/**
+ * 实现 $mount
+ * @param {*} el 
+ * @param {*} hydrating 
+ * @returns 
+ */
 Vue.prototype.$mount = function (
   el?: string | Element,
   hydrating?: boolean
 ): Component {
+
+  /**
+   * 初始化
+   * 将首次渲染的结果替换 el
+   */
   el = el && inBrowser ? query(el) : undefined
   return mountComponent(this, el, hydrating)
 }
