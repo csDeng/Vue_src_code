@@ -33,6 +33,8 @@ export function toggleObserving (value: boolean) {
  * object. Once attached, the observer converts the target
  * object's property keys into getter/setters that
  * collect dependencies and dispatch updates.
+ * 每一个响应式对象，都有一个ob
+ * 
  */
 export class Observer {
   value: any;
@@ -41,17 +43,50 @@ export class Observer {
 
   constructor (value: any) {
     this.value = value
+
+    /**
+     * @重点->@为什么在Observer里面声明dep
+     * 创建Dep实例
+     * Object 里面新增或者删除属性
+     * array 中有变更方法
+     */
     this.dep = new Dep()
     this.vmCount = 0
+
+    /**
+     * 设置一个—个 __ob__ 属性，引用当前Observer实例
+     */
+
+    /**
+     * 
+export function def (obj: Object, key: string, val: any, enumerable?: boolean) {
+  Object.defineProperty(obj, key, {
+    value: val,
+    enumerable: !!enumerable,
+    writable: true,
+    configurable: true
+  })
+}
+     */
     def(value, '__ob__', this)
+
+    /**
+     * 类型判断
+     */
+    // 数组
     if (Array.isArray(value)) {
       if (hasProto) {
         protoAugment(value, arrayMethods)
       } else {
         copyAugment(value, arrayMethods, arrayKeys)
       }
+      /**
+       * 如果数组里面的元素还是对象，还需要进行响应式处理
+       */
       this.observeArray(value)
+
     } else {
+      //  是一个对象
       this.walk(value)
     }
   }
@@ -111,7 +146,14 @@ export function observe (value: any, asRootData: ?boolean): Observer | void {
   if (!isObject(value) || value instanceof VNode) {
     return
   }
+  /**
+   * @观察者
+   */
   let ob: Observer | void
+
+  /**
+   * 已经存在，直接返回ob,否则创建新实例
+   */
   if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
     ob = value.__ob__
   } else if (
@@ -121,6 +163,10 @@ export function observe (value: any, asRootData: ?boolean): Observer | void {
     Object.isExtensible(value) &&
     !value._isVue
   ) {
+
+    /**
+     * @Observer
+     */
     ob = new Observer(value)
   }
   if (asRootData && ob) {
@@ -139,6 +185,8 @@ export function defineReactive (
   customSetter?: ?Function,
   shallow?: boolean
 ) {
+
+  // 每个dep实例都和一个key一一对应
   const dep = new Dep()
 
   const property = Object.getOwnPropertyDescriptor(obj, key)
@@ -149,18 +197,37 @@ export function defineReactive (
   // cater for pre-defined getter/setters
   const getter = property && property.get
   const setter = property && property.set
+
   if ((!getter || setter) && arguments.length === 2) {
     val = obj[key]
   }
 
+  /**
+   * 只要是对象类型都会返回childOb
+   */
   let childOb = !shallow && observe(val)
+
+  /**
+   * @属性拦截
+   */
   Object.defineProperty(obj, key, {
     enumerable: true,
     configurable: true,
     get: function reactiveGetter () {
+      // 获取key对应的值
       const value = getter ? getter.call(obj) : val
+
+      /**
+       * 如果存在依赖
+       */
       if (Dep.target) {
+        // 依赖收集
         dep.depend()
+
+        /**
+         * 如果存在子Ob, 子ob也要收集
+         */
+
         if (childOb) {
           childOb.dep.depend()
           if (Array.isArray(value)) {
@@ -187,7 +254,13 @@ export function defineReactive (
       } else {
         val = newVal
       }
+
+      // 如果新值是一个对象，也要进行响应式处理
       childOb = !shallow && observe(newVal)
+
+      /**
+       * 在set方法里面通知更新
+       */
       dep.notify()
     }
   })
@@ -225,6 +298,8 @@ export function set (target: Array<any> | Object, key: any, val: any): any {
     target[key] = val
     return val
   }
+
+  // 响应式
   defineReactive(ob.value, key, val)
   ob.dep.notify()
   return val

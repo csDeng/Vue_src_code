@@ -86,6 +86,7 @@ export function initMixin (Vue: Class<Component>) {
     
     /**
      * @重要 数据初始化，响应式
+     * $set  $delete $watch
      * 在reject之后，初始化数据，达到去重的效果
      */
     initState(vm)

@@ -110,6 +110,9 @@ function initProps (vm: Component, propsOptions: Object) {
   toggleObserving(true)
 }
 
+/**
+ * 
+ */
 function initData (vm: Component) {
   let data = vm.$options.data
   data = vm._data = typeof data === 'function'
@@ -124,9 +127,13 @@ function initData (vm: Component) {
     )
   }
   // proxy data on instance
+  /**
+   * 数据代理
+   */
   const keys = Object.keys(data)
   const props = vm.$options.props
   const methods = vm.$options.methods
+  
   let i = keys.length
   while (i--) {
     const key = keys[i]
@@ -145,10 +152,18 @@ function initData (vm: Component) {
         vm
       )
     } else if (!isReserved(key)) {
+
+      /**
+       * @代理
+       */
       proxy(vm, `_data`, key)
     }
   }
   // observe data
+
+  /**
+   * @响应式操作
+   */
   observe(data, true /* asRootData */)
 }
 

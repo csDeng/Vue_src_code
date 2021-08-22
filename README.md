@@ -85,13 +85,13 @@ Vue.prototype.$mount = function (
 > import { warn } from '../util/index'
 > 
 > function Vue (options) {
->   if (process.env.NODE_ENV !== 'production' &&
->     !(this instanceof Vue)
->   ) {
->     warn('Vue is a constructor and should be called with the `new` keyword')
->   }
+>     if (process.env.NODE_ENV !== 'production' &&
+>        !(this instanceof Vue)
+>     ) {
+>        warn('Vue is a constructor and should be called with the `new` keyword')
+>     }
 > 
->   /**
+>     /**
 >    * 初始化
 >    */
 >   this._init(options)
@@ -100,10 +100,10 @@ Vue.prototype.$mount = function (
 >  * 以下通过给Vue.prototype挂载的方法，混入其他方法
 >  */
 > initMixin(Vue)    // 通过该方法，给Vue提供__init方法
-> stateMixin(Vue)
-> eventsMixin(Vue)
-> lifecycleMixin(Vue)
-> renderMixin(Vue)
+> stateMixin(Vue)   // $set $delete $watch
+> eventsMixin(Vue)   // $on $once $emit $off
+> lifecycleMixin(Vue) // _update(), $forceUpdate, $destroy 
+> renderMixin(Vue)    // $nextTick, _render, $vnode
 > 
 > export default Vue
 > 
@@ -128,7 +128,7 @@ Vue.prototype.$mount = function (
 >
 > 
 
-# 初始化过程
+## 3. 初始化过程
 
 1. `new Vue`, 调用`init`
 2. 合并`options`
@@ -136,4 +136,42 @@ Vue.prototype.$mount = function (
 4. `mountComponent` (声明`updateCmponent`, 创建`Watcher`)
 5. `render` (`虚拟dom`转成`真实dom`)
 6. `update`
+
+
+
+## 4. 数据响应式
+
+* `\vue\src\core\instance\state.js`
+
+> 入口文件
+
+* `src\core\instance\state.js`
+
+> `initData`获取`data`，设置代理， 启动响应式`observe`
+
+* `src\core\observer\index.js`
+
+> 响应式处理的中心
+>
+> ```js
+> obj = {foo: 'foo'}
+> obj.bar = 'aaa'			// 这个不会响应式
+> Vue.$set(obj, 'bar', 'aaa')
+> 
+> ```
+>
+> 
+
+
+
+### `Vue2.x`的响应式的缺点
+
+* 递归遍历，性能问题
+* `api`不统一
+
+
+
+
+
+
 
