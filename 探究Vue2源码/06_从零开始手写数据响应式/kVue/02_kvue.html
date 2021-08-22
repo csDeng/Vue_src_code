@@ -12,6 +12,9 @@
   <div id="app">
     <p k-text='counter'></p>
     <p k-html='desc'></p>
+    <P>{{num}}</P>
+    <button @click='add'>+</button>
+    <input k-model='num'/>
   </div>
 
   <script>
@@ -20,9 +23,15 @@
       data(){
           return {
               counter: 0,
+              num:0,
               desc:`<span style='color:red'>我是k-html触发的东西</span>`
           }
       },
+      methods:{
+        add(){
+          this.num ++;
+        }
+      }
     })
     // console.log(vm)
     setInterval(()=>{

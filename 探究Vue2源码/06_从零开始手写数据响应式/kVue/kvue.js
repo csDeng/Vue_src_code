@@ -6,6 +6,7 @@
 没有使用虚拟dom 每一次都是操作真实dom
 
  */
+
 /**
  * 这里的defineReactive实际上是一个闭包，
  * 外面的对面引用着函数内的变量，导致这些临时变量一直存在
@@ -133,7 +134,6 @@ class Watcher{
 
         this.updateFn = updateFn
 
-        // watchers.push(this)
         // 在Dep.Target 静态属性上，设置为当前Watcher实例
         Dep.Target = this
         this.vm[this.key]               // 读取触发了getter

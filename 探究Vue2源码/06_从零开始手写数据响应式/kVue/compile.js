@@ -60,9 +60,24 @@ class Compile{
                 const dir = attrName.substring(2) // xx
                 this[dir] && this[dir](node, exp)
             }
+
+            // 事件的处理
+            if( this.isEvent( attrName )){
+                // @click
+                const dir = attrName.substring(1)
+
+                // exp onClick
+                this.eventHandler(node, exp, dir)
+            }
         })
     }
 
+    /**
+     * 
+     * @param {*} node 节点
+     * @param {*} exp  表达式
+     * @param {*} dir 指令
+     */
     update(node, exp, dir){
         // 初始化
         // 指令对应的更新函数 xxUpdater
@@ -75,9 +90,6 @@ class Compile{
         })
     }
 
-    textUpdater(node, val) {
-        node.textContent = val
-    }
 
 
     // 帮助函数
@@ -94,6 +106,16 @@ class Compile{
         return attr.indexOf('k-') === 0
     }
 
+    isEvent(dir) {
+        return dir.indexOf('@') === 0
+    }
+
+    eventHandler(node, exp, dir){
+        // methods: { onClick=function() }
+        const fn = this.$vm.$options.methods && this.$vm.$options.methods[exp];
+
+        node.addEventListener(dir, fn.bind(this.$vm))
+    }
 
     // 定义指令 k-text
     text(node, exp) {
@@ -112,14 +134,20 @@ class Compile{
         node.innerHTML = val
     }
 
-    /**
-     * @TODO 事件绑定，双向绑定
-     * @param {*} node
-     * @param {*} exp
-     */
-    on(node, exp){
+    // k-model
+    model(node, exp){
+        // update 只能完成赋值和更新
+        this.update(node, exp, 'model')
 
+        // 事件监听
+        node.addEventListener('input', e=>{
+            // 将新的值赋值给数据即可
+            this.$vm[exp] = e.target.value
+        })
     }
-
+    modelUpdater(node, val){
+        // 表单元素赋值
+        node.value = val
+    }
 
 }
