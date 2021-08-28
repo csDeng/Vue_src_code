@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="./snabbdom.js"></script>
+    
+    <!-- web snabbdom的虚拟dom的样式操作 -->
+    <script src="./snabbdom-style.js"></script>
+    <script>
+        const obj = {}
+
+        const {init, h} = snabbdom
+        // 1. 获取patch函数,可以对比两个虚拟dom ,执行dom操作
+        const patch = init([
+            snabbdom_style.default
+        ])
+
+        let vnode;      // 保存接的虚拟dom
+
+
+        const app = document.getElementById('app')
+        function defineReactive(obj, key, val){
+            Object.defineProperty(obj,key, {
+                get(){
+                    console.log('get', key)
+                    return val
+                },
+                set(newVal){
+                    if( newVal !== val){
+                        console.log(`set ${val} -> ${newVal}`)
+                        val = newVal
+                        // 通知视图更新
+                        update()
+                    }
+                }
+            })
+        }
+        defineReactive(obj, 'count', 0)
+
+
+        // 使用虚拟dom更新
+        function update(){
+            vnode = patch(app, h('div#app',{style:{color:'red'}}, obj.count))
+        }
+        // 执行初始化
+        vnode = patch(app, h('div#app', obj.count))
+        console.log('vnode', vnode)
+        setInterval(()=>{
+            obj.count++;
+        },3000)
+    </script>
+</body>
+</html>

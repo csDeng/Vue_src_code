@@ -138,6 +138,10 @@ export function lifecycleMixin (Vue: Class<Component>) {
   }
 }
 
+
+/**
+ * 
+ */
 export function mountComponent (
   vm: Component,
   el: ?Element,
@@ -186,6 +190,10 @@ export function mountComponent (
       measure(`vue ${name} patch`, startTag, endTag)
     }
   } else {
+
+    /**
+     * 用户$mount()时调用
+     */
     updateComponent = () => {
       vm._update(vm._render(), hydrating)
     }

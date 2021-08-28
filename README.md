@@ -3,7 +3,11 @@
 
 
 
+# 调试环境搭建
 
+* 安装依赖  `yarn `
+* 安装rollup  `npm install -g rollup`
+* 修改dev脚本 ` "dev": "rollup -w -c scripts/config.js --sourcemap --environment TARGET:web-full-dev",`
 
 # Vue源码中的相关术语
 
@@ -159,15 +163,43 @@ Vue.prototype.$mount = function (
 > Vue.$set(obj, 'bar', 'aaa')
 > 
 > ```
->
-> 
-
-
 
 ### `Vue2.x`的响应式的缺点
 
 * 递归遍历，性能问题
 * `api`不统一
+
+
+
+
+## 5. 异步更新
+
+* `src\platforms\web\runtime\modules\index.js`
+
+> 定义了属性更新的实现
+
+
+
+> `Watcher.run()`  =>` componentUpdate()` => `render()`  => `update()` => `patch()`
+
+
+
+## 6. patch
+
+`src\core\vdom\patch.js`700行
+
+* `patchVnode`
+
+> 比较两个`VNode`, 包括三种操作： 属性更新、文本更新、子节点更新
+>
+> 具体规则：
+>
+> 1. 新老节点均有子节点，则对子节点进行diff操作，调用updateChildren
+> 2. 如果老节点没有子节点而新节点有子节点，先清空老节点的文本内容，然后为其新增子节点
+> 3. 当新节点没有子节点而老节点有子节点的时候，则移除该节点的所有子节点
+> 4. 当新老节点都无子节点的时候，只是文本替换
+
+* `updateChildren`
 
 
 

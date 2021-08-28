@@ -184,6 +184,10 @@ export function queueWatcher (watcher: Watcher) {
         flushSchedulerQueue()
         return
       }
+
+      /**
+       * 异步更新
+       */
       nextTick(flushSchedulerQueue)
     }
   }
