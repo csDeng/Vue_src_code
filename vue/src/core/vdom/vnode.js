@@ -13,7 +13,7 @@ export default class VNode {
   componentInstance: Component | void; // component instance
   parent: VNode | void; // component placeholder node
 
-  // strictly internal
+  // strictly internal        
   raw: boolean; // contains raw HTML? (server only)
   isStatic: boolean; // hoisted static node
   isRootInsert: boolean; // necessary for enter transition check
@@ -62,6 +62,8 @@ export default class VNode {
     this.asyncFactory = asyncFactory
     this.asyncMeta = undefined
     this.isAsyncPlaceholder = false
+
+    // console.log('Vnode class', this)
   }
 
   // DEPRECATED: alias for componentInstance for backwards compat.

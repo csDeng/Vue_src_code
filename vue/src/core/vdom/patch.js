@@ -646,7 +646,7 @@ export function createPatchFunction (backend) {
         nodeOps.setTextContent(elm, '')
       }
     } else if (oldVnode.text !== vnode.text) {
-      // 新旧都是文本，而不相同
+      // 新旧都是文本，且不相同
       nodeOps.setTextContent(elm, vnode.text)
     }
     if (isDef(data)) {
