@@ -6,8 +6,18 @@
 # 调试环境搭建
 
 * 安装依赖  `yarn `
+
 * 安装rollup  `npm install -g rollup`
+
 * 修改dev脚本 ` "dev": "rollup -w -c scripts/config.js --sourcemap --environment TARGET:web-full-dev",`
+
+* > #### [output.sourcemap]([rollup.js (rollupjs.org)](https://rollupjs.org/guide/en/#outputsourcemap))
+  >
+  > Type: `boolean | 'inline' | 'hidden'`
+  > CLI: `-m`/`--sourcemap`/`--no-sourcemap`
+  > Default: `false`
+  >
+  > If `true`, a separate sourcemap file will be created. If `"inline"`, the sourcemap will be appended to the resulting `output` file as a data URI. `"hidden"` works like `true` except that the corresponding sourcemap comments in the bundled files are suppressed.
 
 # Vue源码中的相关术语
 

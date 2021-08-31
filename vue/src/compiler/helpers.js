@@ -180,6 +180,7 @@ export function getBindingAttr (
 // doesn't get processed by processAttrs.
 // By default it does NOT remove it from the map (attrsMap) because the map is
 // needed during codegen.
+
 export function getAndRemoveAttr (
   el: ASTElement,
   name: string,
@@ -190,6 +191,7 @@ export function getAndRemoveAttr (
     const list = el.attrsList
     for (let i = 0, l = list.length; i < l; i++) {
       if (list[i].name === name) {
+        // 删除
         list.splice(i, 1)
         break
       }

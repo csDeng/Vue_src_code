@@ -23,6 +23,8 @@ export function optimize (root: ?ASTElement, options: CompilerOptions) {
   isStaticKey = genStaticKeysCached(options.staticKeys || '')
   isPlatformReservedTag = options.isReservedTag || no
   // first pass: mark all non-static nodes.
+
+  // 静态标记
   markStatic(root)
   // second pass: mark static roots.
   markStaticRoots(root, false)
@@ -38,6 +40,7 @@ function genStaticKeys (keys: string): Function {
 function markStatic (node: ASTNode) {
   node.static = isStatic(node)
   if (node.type === 1) {
+    // nodeType == 1 是Element
     // do not make component slot content static. this avoids
     // 1. components not able to mutate slot nodes
     // 2. static slot content fails for hot-reloading
