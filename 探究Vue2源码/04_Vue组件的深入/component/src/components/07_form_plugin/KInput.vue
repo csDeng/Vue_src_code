@@ -25,6 +25,7 @@
     methods: {
       onInput(e) {
         // 派发一个input事件即可
+        // console.log('onInput',e)
         this.$emit('input', e.target.value)
 
         // 通知父级执行校验

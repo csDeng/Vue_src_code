@@ -39,12 +39,12 @@ export default {
   methods: {
     // 数据校验
     validate() {
-      console.log("拿到注入的form", this.form)
+      // console.log("拿到注入的form", this.form)
       // 规则
-      console.log('rules=',this.form.rules[this.prop])
+      // console.log('rules=',this.form.rules[this.prop])
       const rules = this.form.rules[this.prop];
       // 当前值
-      console.log('model=',this.form.model[this.prop])
+      // console.log('model=',this.form.model[this.prop])
       const value = this.form.model[this.prop];
 
       // 校验描述对象
