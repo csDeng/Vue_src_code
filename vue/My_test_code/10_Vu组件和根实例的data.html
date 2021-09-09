@@ -8,29 +8,28 @@
     <script src='../dist/vue.js'></script>
 </head>
 <body>
-
-    <!-- key的作用和原理 -->
     <div id="app">
-       <ul>
-           <li v-for='a in arr' :key='a'  >{{a}}</li>
-       </ul>
+        {{a}}
+        <hr />
+        <Test></Test>
     </div>
 
     <script>
-        const app = new Vue({
-            el:'#app',
+        Vue.component('Test',{
             data(){
                 return {
-                    arr:['a','b','c','d','e']
+                    b: 9
                 }
             },
-            mounted(){
-                setTimeout(()=>{
-                    this.arr.splice(2,0,'f')
-                }, 3000)
-            }
+            template:`<div>{{b}}</div>`
         })
-        console.log(app.$options.render)
+        const app = new Vue({
+            el:'#app',
+            data: {
+                a: 1
+            }
+            
+        })
     </script>
 </body>
 </html>

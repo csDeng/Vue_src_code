@@ -215,5 +215,11 @@ Vue.prototype.$mount = function (
 
 
 
+## 7. 动画 
+
+`src\platforms\web\runtime\transition-util.js`
+
+
+
 
 

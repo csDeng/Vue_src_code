@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>v-if 和 v-for 谁的优先级更高？</h1>
+
+        <!-- <p v-for="item in children" :key='item' v-if="isFolder"> {{item.title}} </p> -->
+
+        <!-- 性能优化的代码 -->
+        <template v-if='isFolder'>
+            <p v-for="item in children" :key='item'> {{item.title}} </p>
+        </template>
+    </div>
+    <script>
+        const app = new Vue({
+            el:'#app',
+            data(){
+                return {
+                    children: [
+                        {title: 'foo'},
+                        {title: 'bar'}
+                    ]
+                }
+            },
+            computed :{
+                isFolder(){
+                    return this.children && this.children.length > 0 
+                }
+            }
+        })
+        console.log(app.$options.render)
+
+    </script>
+</body>
+</html>

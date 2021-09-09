@@ -7,8 +7,19 @@
   <title>Document</title>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 </head>
+
+<!-- 
+Vue的组件的data必须是一个函数，而Vue的根实例不需要。
+
+ -->
 <body>
   <div id="app">
+    <!--根实例的data是共享的-->
+    <button @click="$data.a++">{{a}}</button>
+    <hr />
+    <button @click='$data.a++'>{{a}}</button>
+
+    <!-- 组件的data是相互隔离的 -->
     <h1>函数data</h1>
     <func-add > </func-add>
     <func-add></func-add>
@@ -37,6 +48,10 @@
     })
     const vm = new Vue({
       el:'#app',
+      data: {
+        a: 1
+      },
+
     })
   </script>
 </body>
