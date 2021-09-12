@@ -38,13 +38,13 @@ const hooks = ['create', 'activate', 'update', 'remove', 'destroy']
  */
 function sameVnode (a, b) {
   return (
-    a.key === b.key &&
-    a.asyncFactory === b.asyncFactory && (
+    a.key === b.key &&      // key是否相同
+    a.asyncFactory === b.asyncFactory && (  // 是async元素时
       (
-        a.tag === b.tag &&
-        a.isComment === b.isComment &&
-        isDef(a.data) === isDef(b.data) &&
-        sameInputType(a, b)
+        a.tag === b.tag &&    // 标签名是否相同
+        a.isComment === b.isComment &&  // 是否都是注释
+        isDef(a.data) === isDef(b.data) &&  // 是否都定义了data
+        sameInputType(a, b)           // 是否是input类型，type是否相同
       ) || (
         isTrue(a.isAsyncPlaceholder) &&
         isUndef(b.asyncFactory.error)
@@ -344,12 +344,7 @@ export function createPatchFunction (backend) {
 
   /**
    * 
-   * @param {*} parentElm 
-   * @param {*} refElm 
-   * @param {*} vnodes 
-   * @param {*} startIdx 
-   * @param {*} endIdx 
-   * @param {*} insertedVnodeQueue 
+
    */
   function addVnodes (parentElm, refElm, vnodes, startIdx, endIdx, insertedVnodeQueue) {
     for (; startIdx <= endIdx; ++startIdx) {
@@ -553,13 +548,6 @@ export function createPatchFunction (backend) {
 
   /**
   * @进行Diff
-   * @param {*} oldVnode
-   * @param {*} vnode
-   * @param {*} insertedVnodeQueue
-   * @param {*} ownerArray
-   * @param {*} index
-   * @param {*} removeOnly
-   * @returns
    */
   function patchVnode (
     oldVnode,
@@ -611,22 +599,20 @@ export function createPatchFunction (backend) {
     if (isDef(data) && isDef(i = data.hook) && isDef(i = i.prepatch)) {
       i(oldVnode, vnode)
     }
-
     // 看看新旧节点是否有孩子队列
     const oldCh = oldVnode.children
     const ch = vnode.children
-
     // 属性更新
     if (isDef(data) && isPatchable(vnode)) {
       for (i = 0; i < cbs.update.length; ++i) cbs.update[i](oldVnode, vnode)
       if (isDef(i = data.hook) && isDef(i = i.update)) i(oldVnode, vnode)
     }
-
     // 判断是否是元素， 没有文本则是Element
     if (isUndef(vnode.text)) {
 
       // 都有孩子
       if (isDef(oldCh) && isDef(ch)) {
+        // 如果新孩子不等于老孩子，则启动diff算法
         if (oldCh !== ch) updateChildren(elm, oldCh, ch, insertedVnodeQueue, removeOnly)
       } else if (isDef(ch)) {
         // 只有新节点有孩子

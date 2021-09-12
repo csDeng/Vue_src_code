@@ -221,5 +221,28 @@ Vue.prototype.$mount = function (
 
 
 
+## 8. 组件化
 
+`src\core\global-api\assets.js`
+
+## 9. 一些常用工具函数
+
+1. def
+
+`src\core\util\lang.js`
+
+```js
+/**
+ * Define a property.
+ * 定义属性
+ */
+export function def (obj: Object, key: string, val: any, enumerable?: boolean) {
+  Object.defineProperty(obj, key, {
+    value: val,
+    enumerable: !!enumerable,
+    writable: true,
+    configurable: true
+  })
+}
+```
 

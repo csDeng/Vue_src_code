@@ -18,6 +18,8 @@ export function initExtend (Vue: GlobalAPI) {
    */
   Vue.extend = function (extendOptions: Object): Function {
     extendOptions = extendOptions || {}
+
+    // super 是Vue
     const Super = this
     const SuperId = Super.cid
     const cachedCtors = extendOptions._Ctor || (extendOptions._Ctor = {})
@@ -30,12 +32,18 @@ export function initExtend (Vue: GlobalAPI) {
       validateComponentName(name)
     }
 
+
+    // 创建组件的基类
     const Sub = function VueComponent (options) {
       this._init(options)
     }
+
+    // 继承于Vue
     Sub.prototype = Object.create(Super.prototype)
     Sub.prototype.constructor = Sub
     Sub.cid = cid++
+
+    // 组件选项合并
     Sub.options = mergeOptions(
       Super.options,
       extendOptions
