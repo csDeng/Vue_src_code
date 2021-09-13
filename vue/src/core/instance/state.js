@@ -49,6 +49,10 @@ export function proxy (target: Object, sourceKey: string, key: string) {
 export function initState (vm: Component) {
   vm._watchers = []
   const opts = vm.$options
+  /**
+   * state的初始化顺序
+   * props -> methods -> data -> computed -> watch
+   */
   if (opts.props) initProps(vm, opts.props)
   if (opts.methods) initMethods(vm, opts.methods)
   if (opts.data) {
@@ -57,6 +61,9 @@ export function initState (vm: Component) {
     observe(vm._data = {}, true /* asRootData */)
   }
   if (opts.computed) initComputed(vm, opts.computed)
+
+//  Firefox has a "watch" function on Object.prototype...
+// export const nativeWatch = ({}).watch
   if (opts.watch && opts.watch !== nativeWatch) {
     initWatch(vm, opts.watch)
   }
@@ -184,14 +191,22 @@ export function getData (data: Function, vm: Component): any {
 
 const computedWatcherOptions = { lazy: true }
 
+/**
+ * 
+@计算属性
+ */
 function initComputed (vm: Component, computed: Object) {
   // $flow-disable-line
   const watchers = vm._computedWatchers = Object.create(null)
   // computed properties are just getters during SSR
   const isSSR = isServerRendering()
 
+  // 遍历computed对象
   for (const key in computed) {
+    // userDef 暂存每一个computed 属性
+    // console.log('研究computed的key=', key)
     const userDef = computed[key]
+    // console.log("userDef=",userDef)
     const getter = typeof userDef === 'function' ? userDef : userDef.get
     if (process.env.NODE_ENV !== 'production' && getter == null) {
       warn(
@@ -233,12 +248,16 @@ export function defineComputed (
   userDef: Object | Function
 ) {
   const shouldCache = !isServerRendering()
+
+  // 如果当前属性是函数式定义
   if (typeof userDef === 'function') {
     sharedPropertyDefinition.get = shouldCache
       ? createComputedGetter(key)
       : createGetterInvoker(userDef)
     sharedPropertyDefinition.set = noop
   } else {
+
+    // computed是对象式
     sharedPropertyDefinition.get = userDef.get
       ? shouldCache && userDef.cache !== false
         ? createComputedGetter(key)
@@ -307,9 +326,22 @@ function initMethods (vm: Component, methods: Object) {
   }
 }
 
+// 定义监听器
 function initWatch (vm: Component, watch: Object) {
+  // 遍历watch 对象的key
   for (const key in watch) {
     const handler = watch[key]
+    /***
+     * 如果handler是一个数组
+    e: [
+      'handle1',
+        function handle2 (val, oldVal) {  },
+        {
+          handler: function handle3 (val, oldVal) { },
+        }
+    ],
+     * 
+     * **/
     if (Array.isArray(handler)) {
       for (let i = 0; i < handler.length; i++) {
         createWatcher(vm, key, handler[i])
@@ -322,7 +354,7 @@ function initWatch (vm: Component, watch: Object) {
 
 function createWatcher (
   vm: Component,
-  expOrFn: string | Function,
+  expOrFn: string | Function,   // key可以是字符串或者函数
   handler: any,
   options?: Object
 ) {
