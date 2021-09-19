@@ -12,6 +12,8 @@ let pending = false
 
 function flushCallbacks () {
   pending = false
+
+  // arrayObject.slice(start,end) 返回选定元素
   const copies = callbacks.slice(0)
   callbacks.length = 0
   for (let i = 0; i < copies.length; i++) {

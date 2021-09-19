@@ -142,7 +142,7 @@ function copyAugment (target: Object, src: Object, keys: Array<string>) {
  * returns the new observer if successfully observed,
  * or the existing observer if the value already has one.
  */
-export function observe (value: any, asRootData: ?boolean): Observer | void {
+export function observe (value: any, asRootData: ? boolean): Observer | void {
   if (!isObject(value) || value instanceof VNode) {
     return
   }
@@ -157,6 +157,9 @@ export function observe (value: any, asRootData: ?boolean): Observer | void {
   if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
     ob = value.__ob__
   } else if (
+    /**
+     * 应该Observer，不是服务端渲染
+     */
     shouldObserve &&
     !isServerRendering() &&
     (Array.isArray(value) || isPlainObject(value)) &&
@@ -168,11 +171,13 @@ export function observe (value: any, asRootData: ?boolean): Observer | void {
      * @Observer
      */
     ob = new Observer(value)
+
   }
   if (asRootData && ob) {
     ob.vmCount++
   }
   return ob
+  
 }
 
 /**

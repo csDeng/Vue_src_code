@@ -42,11 +42,6 @@ o.a
 o.a = 2
 o.b
 o.b = 'world'
-o.c.age
-o.c.age = 99
 
-// 给obj新添加的属性没有经过社会主义的洗礼，没有响应式
-o.foo = 'fooo'
-o.foo
-o.foo = 'fooooooooooooo'
+
 

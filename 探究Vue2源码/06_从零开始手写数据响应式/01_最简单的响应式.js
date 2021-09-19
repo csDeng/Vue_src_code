@@ -22,14 +22,24 @@ function defineReactive(obj, key, val){
     })
 }
 
+// 2. 观察一个对象，让这个对象的所有属性重新定义使之变成响应式
+function observe(obj){
+    // 希望传入的是一个Object
+    if( typeof obj !== 'object' || typeof(obj) == null){
+        return ;
+    }
+    Object.keys(obj).forEach(key=>{
+        defineReactive(obj, key, obj[key])
+    })
+}
+
 let obj = {}
 
 defineReactive(obj, 'foo','fooo')
 obj.foo
+console.log(1)
 obj.foo = 'foooooooooooooooooo'
 
-defineReactive(obj, 'bar', {age: 18})
-obj.bar.age
-obj.bar.age = 10
+console.log(2)
 
-let o = { a: 1, b: 'hello', c:{age:9}}
+

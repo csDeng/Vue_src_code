@@ -246,3 +246,21 @@ export function def (obj: Object, key: string, val: any, enumerable?: boolean) {
 }
 ```
 
+
+
+2. hasOwn
+
+`packages\vue-server-renderer\build.dev.js`
+
+```js
+/**
+ * Check whether an object has the property.
+ */
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+function hasOwn (obj, key) {
+  return hasOwnProperty.call(obj, key)
+}
+```
+
+> obj.hasOwnProperty('xx')    确定xx属性是否来自obj而不是来自它的原型
+

@@ -20,10 +20,42 @@ function Vue (options) {
 /**
  * 以下通过给Vue.prototype挂载的方法，混入其他方法
  */
-initMixin(Vue)    // 通过该方法，给Vue提供__init方法
-stateMixin(Vue)   // $set $delete $watch
-eventsMixin(Vue)   // $on $once $emit $off
-lifecycleMixin(Vue) // _update(), $forceUpdate, $destroy 
-renderMixin(Vue)    // $nextTick, _render, $vnode
+initMixin(Vue)    
+/** 
+ * initMixin
+通过该方法，给Vue提供__init方法， 初始化生命周期
+initLifecycle   -> initEvents  -> initRender
+-> callHook(vm, 'beforeCreate') -> initInJections
+-> initState  -> initProvide  
+-> callHook(vm, 'created')
+-> if (vm.$options.el) {
+      vm.$mount(vm.$options.el)
+    }
+*/
+
+stateMixin(Vue)  
+/**
+stateMixin
+$data   -> $props   -> $set   -> $delete    -> $watch
+ */
+
+
+eventsMixin(Vue)   
+/** eventsMixin
+$on  $once  $off  $emit
+
+ */
+
+lifecycleMixin(Vue) 
+/** lifecycleMixin
+ * _update(), $forceUpdate, $destroy 
+ * 
+ */
+
+renderMixin(Vue)
+/**
+ * $nextTick, _render, $vnode
+ *  
+ * */     
 
 export default Vue

@@ -10,11 +10,14 @@ import {
 import { updateListeners } from '../vdom/helpers/index'
 
 export function initEvents (vm: Component) {
+  // 由null产生子类
   vm._events = Object.create(null)
   vm._hasHookEvent = false
   // init parent attached events
   /**
    * 获取父组件里面的监听器
+   *  src/init.js
+   * opts._parentListeners = vnodeComponentOptions.listeners
    */
   const listeners = vm.$options._parentListeners
   
@@ -36,6 +39,7 @@ function remove (event, fn) {
 function createOnceHandler (event, fn) {
   const _target = target
   return function onceHandler () {
+    // 调用函数，绑定上下文为 null
     const res = fn.apply(null, arguments)
     if (res !== null) {
       _target.$off(event, onceHandler)
