@@ -80,11 +80,11 @@ export default class VNode {
 
 * 4. 浏览器中打开，查看结果
 
-  ![image-20210829005429034](C:\Users\dcs\Desktop\Github\Vue_src_code\pics\image-20210829005429034.png)
+  ![image-20210829005429034](.\pics\image-20210829005429034.png)
 
 * 5. 打开其中一个节点看看具体结构
 
-  ![image-20210829005829978](C:\Users\dcs\Desktop\Github\Vue_src_code\pics\image-20210829005829978.png)
+  ![image-20210829005829978](.\pics\image-20210829005829978.png)
 
 * 6. 可以看到其实`Vnode`就是把我们的`html`标签转化成一个`js`对象.
   7. `Vdom`就是一个又一个`Vnode`构成的
@@ -144,7 +144,7 @@ export default class VNode {
 
 * 浏览器打开观察结果
 
-![image-20210829010910990](C:\Users\dcs\Desktop\Github\Vue_src_code\pics\image-20210829010910990.png)
+![image-20210829010910990](.\pics\image-20210829010910990.png)
 
 
 
@@ -447,7 +447,7 @@ diff具体实现细节在`patch.js`里面的`updateChildren()`，执行的是两
 
 ---
 
-![img](C:\Users\dcs\Desktop\Github\Vue_src_code\pics\www.webdevelopment247.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg)
+![img](.\pics\www.webdevelopment247.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg)
 
 ## 答案
 

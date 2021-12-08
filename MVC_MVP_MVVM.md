@@ -6,7 +6,7 @@
 
 MVC模式的意思是，软件可以分成三个部分。
 
-![img](C:\Users\dcs\Desktop\Github\Vue_src_code\pics\bg2015020104.png)
+![img](.\pics\bg2015020104.png)
 
 > - 视图（View）：用户界面。
 > - 控制器（Controller）：业务逻辑
@@ -14,7 +14,7 @@ MVC模式的意思是，软件可以分成三个部分。
 
 各部分之间的通信方式如下。
 
-![img](C:\Users\dcs\Desktop\Github\Vue_src_code\pics\bg2015020105.png)
+![img](.\pics\bg2015020105.png)
 
 > 1. View 传送指令到 Controller
 > 2. Controller 完成业务逻辑后，要求 Model 改变状态
@@ -24,17 +24,17 @@ MVC模式的意思是，软件可以分成三个部分。
 
 * 接受用户指令时，MVC 可以分成两种方式。一种是通过 View 接受指令，传递给 Controller。
 
-![img](C:\Users\dcs\Desktop\Github\Vue_src_code\pics\bg2015020106.png)
+![img](.\pics\bg2015020106.png)
 
 * 另一种是直接通过controller接受指令。
 
-![img](C:\Users\dcs\Desktop\Github\Vue_src_code\pics\bg2015020107.png)
+![img](.\pics\bg2015020107.png)
 
 # MVP
 
 MVP 模式将 Controller 改名为 Presenter，同时改变了通信方向。
 
-![img](C:\Users\dcs\Desktop\Github\Vue_src_code\pics\bg2015020109.png)
+![img](.\pics\bg2015020109.png)
 
 1. 各部分之间的通信，都是双向的。
 
@@ -48,7 +48,7 @@ MVP 模式将 Controller 改名为 Presenter，同时改变了通信方向。
 
 MVVM 模式将 Presenter 改名为 ViewModel，基本上与 MVP 模式一致。
 
-![img](C:\Users\dcs\Desktop\Github\Vue_src_code\pics\bg2015020110.png)
+![img](.\pics\bg2015020110.png)
 
 唯一的区别是，它采用双向绑定（data-binding）：View的变动，自动反映在 ViewModel，反之亦然。
 

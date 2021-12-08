@@ -418,7 +418,7 @@ export function stateMixin (Vue: Class<Component>) {
       popTarget()
     }
     return function unwatchFn () {
-      watcher.teardown()
+      watcher.teardown() 
     }
   }
 }

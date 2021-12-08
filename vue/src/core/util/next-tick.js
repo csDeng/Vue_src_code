@@ -7,6 +7,7 @@ import { isIE, isIOS, isNative } from './env'
 
 export let isUsingMicroTask = false
 
+// 任务队列
 const callbacks = []
 let pending = false
 
@@ -45,6 +46,8 @@ let timerFunc
 
 /**
  * 检查环境
+ * 确定使用微任务还是宏任务
+ * 确定timerFunc
  */
 if (typeof Promise !== 'undefined' && isNative(Promise)) {
   const p = Promise.resolve()
